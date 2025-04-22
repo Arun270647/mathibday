@@ -85,7 +85,7 @@ body {
 /* Styling for the Next Button */
 .next-button {
 	display: none; /* Initially hidden, controlled by JS */
-	margin: 40px 100px 0px; /* Center the button horizontally with margin */
+	margin: 40px 0px 0px; /* Center the button horizontally with margin */
 	padding: 10px 20px; /* Top/bottom and left/right padding */
 	font-family: 'Quicksand', sans-serif; /* Match other text font */
 	font-size: 16px; /* Set font size */
