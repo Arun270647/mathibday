@@ -62,7 +62,7 @@ body {
 	font-size: clamp(16px, 10vw, 17px);
 	text-align: justify;
 	line-height: 1.5em;
-	width: 50%;
+	width: 90%;
 	max-width: 350px;
 	height: 78%;
 	position: absolute;
