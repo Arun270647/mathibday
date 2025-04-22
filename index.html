@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading...</title>
+    <style>
+      /* CSS based on function-heart.css */
+      body {
+        background: black; /* Black background for preloader */
+        color: #fff;
+        font-family: "Archivo Black", sans-serif; /* Included font for potential text */
+        text-align: center;
+        overflow: hidden; /* Hide scrollbars */
+        margin: 0;
+        padding: 0;
+      }
+
+      canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block; /* Ensure canvas takes up space */
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <script>
+      // Initial setup for canvas context, required by the animation script
+      var b = document.body;
+      var c = document.getElementsByTagName('canvas')[0];
+      var a = c.getContext('2d');
+      // Setting canvas size initially - the script will resize it too
+      c.width = innerWidth;
+      c.height = innerHeight;
+    </script>
+
+    <script>
+      // Main animation logic from function-heart.js
+      e = []; // trails
+      h = []; // heart path
+      O = c.width = innerWidth; // Canvas width
+      Q = c.height = innerHeight; // Canvas height
+
+      v = 32; // num trails, num particles per trail & num nodes in heart path
+      M = Math;
+      R = M.random;
+      C = M.cos;
+      Y = 6.3; // close to Math.PI * 2
+
+      // Calculate heart nodes
+      for (i = 0; i < Y; i += 0.2) {
+        h.push([
+          O / 2 + 180 * M.pow(M.sin(i), 3),
+          Q / 2 + 10 * (-(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))),
+        ]);
+      }
+
+      // Initialize trails and particles
+      i = 0;
+      while (i < v) {
+        x = R() * O;
+        y = R() * Q;
+
+        H = (i / v) * 80 + 280; // Hue calculation
+        S = R() * 40 + 60; // Saturation
+        B = R() * 60 + 20; // Brightness
+
+        f = []; // create new trail
+        k = 0;
+        while (k < v) {
+          f[k++] = { // create new particle
+            x: x, y: y, // position
+            X: 0, Y: 0, // velocity
+            R: (1 - k / v) + 1, // radius
+            S: R() + 1, // acceleration
+            q: ~~(R() * v), // target node on heart path
+            D: (i % 2) * 2 - 1, // direction around heart path
+            F: R() * 0.2 + 0.7, // friction
+            f: "hsla(" + ~~H + "," + ~~S + "%," + ~~B + "%,.1)", // colour
+          };
+        }
+        e[i++] = f; // dots are a 2d array of trails x particles
+      }
+
+      // Draw a single particle
+      function render(_) {
+        a.fillStyle = _.f;
+        a.beginPath();
+        a.arc(_.x, _.y, _.R, 0, Y, 1);
+        a.closePath();
+        a.fill();
+      }
+
+      // Main animation loop
+      function loop() {
+        // Clear screen with semi-transparent black for trails effect
+        a.fillStyle = "rgba(0,0,0,.2)";
+        a.fillRect(0, 0, O, Q);
+
+        i = v;
+        while (i--) {
+          f = e[i]; // get trail
+          u = f[0]; // get 1st particle of trail
+          q = h[u.q]; // get target node on heart path
+          D = u.x - q[0]; // calc distance to target x
+          E = u.y - q[1]; // calc distance to target y
+          G = M.sqrt(D * D + E * E); // total distance
+
+          // If close to target node, pick a new target
+          if (G < 10) {
+            if (R() > 0.95) { // 5% chance to jump to random node
+              u.q = ~~(R() * v);
+            } else {
+              if (R() > 0.99) u.D *= -1; // 1% chance to reverse direction
+              u.q += u.D; // Move to next node in current direction
+              u.q %= v; // Wrap around
+              if (u.q < 0) u.q += v; // Ensure positive index
+            }
+          }
+
+          // Accelerate towards target node
+          u.X += (-D / G) * u.S;
+          u.Y += (-E / G) * u.S;
+
+          // Apply velocity
+          u.x += u.X;
+          u.y += u.Y;
+
+          render(u); // draw the first particle
+
+          // Apply friction
+          u.X *= u.F;
+          u.Y *= u.F;
+
+          // Update trailing particles (Zeno's paradox)
+          k = 0;
+          while (k < v - 1) {
+            T = f[k]; // this particle
+            N = f[++k]; // next particle
+            N.x -= (N.x - T.x) * 0.7; // Move towards previous particle
+            N.y -= (N.y - T.y) * 0.7;
+            render(N); // draw trailing particle
+          }
+        }
+      } // eo loop()
+
+      // Start the animation loop using requestAnimationFrame
+      (function doit() {
+        requestAnimationFrame(doit);
+        loop();
+      })();
+
+       // --- Window Resize Handler ---
+       window.addEventListener("resize", function () {
+        // Update dimensions
+        O = c.width = window.innerWidth;
+        Q = c.height = window.innerHeight;
+        // Heart path nodes need recalculation based on new center
+        h = []; // Clear old path
+        for (i = 0; i < Y; i += 0.2) {
+            h.push([
+                O / 2 + 180 * M.pow(M.sin(i), 3),
+                Q / 2 + 10 * (-(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))),
+            ]);
+        }
+      });
+
+    </script>
+
+    <script>
+      // Wait for 6 seconds then navigate
+      const navigationTarget = 'birthday-cake.html'; // The filename for the main card
+      const preloaderDuration = 4000; // 6 seconds in milliseconds
+
+      setTimeout(() => {
+        window.location.href = navigationTarget;
+      }, preloaderDuration);
+    </script>
+
+  </body>
+</html>

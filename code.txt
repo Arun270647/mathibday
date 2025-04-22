@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #ffdb58, #ff66b2);
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: transparent;
+            position: relative;
+        }
+
+        .hero-image-container {
+            flex: 0 0 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-image-container .carousel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-image-container .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image-container .carousel-slide img {
+            max-height: 75%;
+            max-width: 75%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .hero-image-container .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .hero-image-container .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .hero-image-container .carousel-nav-item {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .hero-image-container .carousel-nav-item.active {
+            background-color: #ff66b2;
+        }
+
+        .hero-content {
+            flex: 0 0 40%;
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 20px;
+            margin-right: 140px;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            color: #ff66b2;
+        }
+
+        .about {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .floating-images {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            width: 80%;
+            height: 60%;
+            z-index: -1;
+        }
+
+        .floating-images img {
+            position: absolute;
+            opacity: 0.6;
+            border-radius: 5px;
+        }
+
+        .passions {
+            padding: 80px 20px;
+            background-color: transparent;
+        }
+
+        .passions-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .passion-item {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .passion-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        .passion-bg-1 {
+            background-image: url('passion1-bg.jpg');
+        }
+
+        .passion-bg-2 {
+            background-image: url('passion2-bg.jpg');
+        }
+
+        .gallery {
+            padding: 80px 20px;
+            text-align: center;
+            background-color: transparent;
+        }
+
+        .gallery-grid {
+            max-width: 1000px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .wishes {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .wishes-content {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .floating-confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .celebration {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-color: transparent;
+        }
+
+        .celebration-content {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .celebration-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        footer {
+            background-color: linear-gradient(to bottom, #ffdb58, #ff66b2);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(-45deg);
+                opacity: 0;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image-container {
+                width: 100%;
+                height: auto;
+            }
+
+            .hero-image {
+                max-height: 50%;
+                max-width: 80%;
+            }
+
+            .hero-content {
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-image-container">
+            <div class="carousel">
+                <div class="carousel-slide active">
+                    <img src="bg pic.jpg" alt="Birthday Girl 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="bg pic 2.jpg" alt="Birthday Girl 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="bg pic 3.jpg" alt="Birthday Girl 3">
+                </div>
+                <div class="carousel-slide">
+                    <img src="bg pic 4.jpg" alt="Birthday Girl 4">
+                </div>
+                <div class="carousel-slide">
+                    <img src="bg pic 5.jpg" alt="Birthday Girl 5">
+                </div>
+                <div class="carousel-nav">
+                    <div class="carousel-nav-item active"></div>
+                    <div class="carousel-nav-item"></div>
+                    <div class="carousel-nav-item"></div>
+                    <div class="carousel-nav-item"></div>
+                    <div class="carousel-nav-item"></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1>Happy Birthday, Mathii❤️ </h1>
+            <p>A special website just for you.</p>
+        </div>
+    </div>
+
+    <div class="section about">
+        <div class="about-content">
+            <h2>Her Story / Our Journey</h2>
+            <p>This is where you can share a heartfelt message and special memories.</p>
+        </div>
+    </div>
+
+    <div class="section passions">
+        <div class="passions-content">
+            <div class="passion-item">
+                <h3>[Passion 1]</h3>
+                <p>Description of her first passion.</p>
+                <div class="passion-bg passion-bg-1"></div>
+            </div>
+            <div class="passion-item">
+                <h3>[Passion 2]</h3>
+                <p>Description of her second passion.</p>
+                <div class="passion-bg passion-bg-2"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section gallery" id="gallery">
+        <h2>Photo Gallery / Memories</h2>
+        <div class="gallery-grid">
+        </div>
+    </div>
+
+    <div class="section wishes" id="wishes">
+        <h2>Birthday Wishes</h2>
+        <div class="wishes-content">
+            <p>Here's where birthday wishes from loved ones can go.</p>
+        </div>
+        <div class="floating-confetti">
+        </div>
+    </div>
+
+    <div class="section celebration" id="celebration">
+        <div class="celebration-content">
+            <h2>Celebration Details</h2>
+            <p>Details about the birthday celebration, if any.</p>
+        </div>
+        <div class="celebration-bg"></div>
+    </div>
+
+    <footer>
+        <p>&copy; [Year] - A Special Birthday Website</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroImageContainer = document.querySelector('.hero-image-container');
+            const heroImage = document.querySelector('.hero-image');
+            const aboutFloatingImages = document.querySelector('.floating-images');
+            const celebrationBg = document.querySelector('.celebration-bg');
+
+            if (heroImage) {
+                heroImage.onload = () => {
+                    const naturalWidth = heroImage.naturalWidth;
+                    const naturalHeight = heroImage.naturalHeight;
+
+                    if (naturalWidth < naturalHeight) {
+                        heroImage.classList.add('portrait');
+                    } else {
+                        heroImage.classList.remove('portrait');
+                    }
+                };
+            }
+
+            document.addEventListener('scroll', function() {
+                const scrollY = window.scrollY;
+
+                // Removed parallax effect
+                // heroImageContainer.style.transform = `translateY(${scrollY * 0.2}px)`;
+
+                if (aboutFloatingImages) {
+                    const scrollYAbout = window.scrollY - aboutFloatingImages.offsetTop + window.innerHeight * 0.5;
+                    aboutFloatingImages.querySelectorAll('img').forEach((img, index) => {
+                        const speed = (index + 1) * 0.2;
+                        img.style.transform = `translateY(${scrollYAbout * speed}px) translateX(${scrollYAbout * speed * 0.1}px)`;
+                    });
+                }
+
+                if (celebrationBg) {
+                    celebrationBg.style.transform = `translateY(${scrollY * 0.1}px)`;
+                }
+            });
+
+            function createConfetti() {
+                const confettiContainer = document.querySelector('.floating-confetti');
+                if (!confettiContainer) return;
+
+                const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+                const numConfetti = 100;
+
+                for (let i = 0; i < numConfetti; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    const size = Math.random() * 10 + 5;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.left = `${Math.random() * 100}vw`;
+                    confetti.style.top = `${Math.random() * 100}vh`;
+                    confetti.style.animationDelay = `${Math.random() * 5}s`;
+                    confetti.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                    confettiContainer.appendChild(confetti);
+                }
+            }
+
+            createConfetti();
+
+            const floatingImagesContainer = document.querySelector('.floating-images');
+            if (floatingImagesContainer) {
+                for (let i = 1; i <= 3; i++) {
+                    const img = document.createElement('img');
+                    img.src = `floating-image${i}.jpg`;
+                    img.alt = `Floating ${i}`;
+                    img.style.top = `${20 + i * 10}%`;
+                    img.style.left = `${10 + i * 15}%`;
+                    floatingImagesContainer.appendChild(img);
+                }
+            }
+
+            const galleryGrid = document.querySelector('.gallery-grid');
+            if (galleryGrid) {
+                for (let i = 1; i <= 6; i++) {
+                    const img = document.createElement('img');
+                    img.src = `photo${i}.jpg`;
+                    img.alt = `Photo ${i}`;
+                    galleryGrid.appendChild(img);
+                }
+            }
+
+            // Carousel Implementation
+            const carouselSlides = document.querySelectorAll('.hero-image-container .carousel-slide');
+            const carouselNavItems = document.querySelectorAll('.hero-image-container .carousel-nav-item');
+            let currentSlide = 0;
+            let intervalId;
+
+            function showSlide(index) {
+                carouselSlides.forEach((slide) => {
+                    slide.classList.remove('active');
+                });
+                carouselNavItems.forEach((item) => item.classList.remove('active'));
+
+                carouselSlides[index].classList.add('active');
+                carouselNavItems[index].classList.add('active');
+                currentSlide = index;
+            }
+
+            function nextSlide() {
+                let nextIndex = (currentSlide + 1) % carouselSlides.length;
+                showSlide(nextIndex);
+            }
+
+            function startCarousel() {
+                intervalId = setInterval(nextSlide, 5000);
+            }
+
+            function stopCarousel() {
+                clearInterval(intervalId);
+            }
+
+            carouselNavItems.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                    stopCarousel();
+                    showSlide(index);
+                    startCarousel();
+                });
+            });
+
+            heroImageContainer.addEventListener('mouseenter', stopCarousel);
+            heroImageContainer.addEventListener('mouseleave', startCarousel);
+
+            showSlide(0);
+            startCarousel();
+        });
+
+        function createFloatingHearts() {
+        const heartContainer = document.getElementById('floatingHearts');
+
+        setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.transform = `scale(${Math.random() * 0.5 + 0.5}) rotate(-45deg)`;
+
+                heartContainer.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 300);
+    }
+
+    createFloatingHearts();
+
+    </script>
+  <div class="floating-hearts" id="floatingHearts"></div>
+</body>
+</html>

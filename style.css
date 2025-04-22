@@ -1,0 +1,187 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    background-image: url('hero-image.jpg'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Enable parallax */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+/* About Section */
+.about {
+    padding: 80px 20px;
+    text-align: center;
+    position: relative; /* For floating images */
+    overflow: hidden; /* Clip floating images */
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.floating-images {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+    width: 80%;
+    height: 60%;
+    z-index: -1; /* Behind the text */
+}
+
+.floating-images img {
+    position: absolute;
+    opacity: 0.6;
+    border-radius: 5px;
+    /* You'll need to position these images with top, left, and potentially animate them with JS */
+}
+
+/* Passions Section */
+.passions {
+    padding: 80px 20px;
+    background-color: #f9f9f9;
+}
+
+.passions-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.passion-item {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* For background image positioning */
+    overflow: hidden;
+}
+
+.passion-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    /* You'll set specific background images for each passion in CSS */
+    /* Example: background-image: url('passion1-bg.jpg'); */
+}
+
+.passion-bg-1 { background-image: url('passion1-bg.jpg'); } /* Replace */
+.passion-bg-2 { background-image: url('passion2-bg.jpg'); } /* Replace */
+
+/* Gallery Section */
+.gallery {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #eee;
+}
+
+.gallery-grid {
+    max-width: 1000px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Wishes Section */
+.wishes {
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.wishes-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.floating-confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow scrolling through */
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+/* Celebration Section */
+.celebration {
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.celebration-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.celebration-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('celebration-bg.jpg'); /* Replace with your image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect */
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
