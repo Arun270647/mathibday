@@ -5,179 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loading...</title>
     <style>
-      /* CSS based on function-heart.css */
+      /* Basic styling for the body */
       body {
-        background: black; /* Black background for preloader */
-        color: #fff;
-        font-family: "Archivo Black", sans-serif; /* Included font for potential text */
+        background: black; /* Black background */
+        color: #fff; /* White text color (though not much text is shown) */
+        font-family: sans-serif; /* Simple fallback font */
         text-align: center;
-        overflow: hidden; /* Hide scrollbars */
+        overflow: hidden; /* Prevent scrollbars */
         margin: 0;
         padding: 0;
       }
 
+      /* Canvas styling */
       canvas {
         position: absolute;
         top: 0;
         left: 0;
         display: block; /* Ensure canvas takes up space */
+        transition: opacity 0.5s ease-out; /* Add transition for canvas fade-out */
       }
+
+      /* --- Transition Overlay Styling --- */
+      #transition-overlay {
+        position: fixed; /* Cover the entire viewport */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Oval gradient: transparent center fading to black edges */
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0) 0%,  /* Transparent center start */
+          rgba(0, 0, 0, 0) 30%, /* Transparent center end */
+          rgba(0, 0, 0, 1) 70%  /* Opaque black edges start */
+        );
+        opacity: 0; /* Start fully transparent */
+        transform: scale(0.1); /* Start small for the zoom-in effect */
+        pointer-events: none; /* Don't block interactions when hidden */
+        z-index: 10; /* Ensure it's above the canvas */
+        /* Define CSS transitions for smooth animation */
+        transition: transform 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55), /* Zoom effect with overshoot */
+                    opacity 1s ease-in; /* Fade-in effect */
+      }
+
+      /* --- Active State for Transition Overlay --- */
+      #transition-overlay.active {
+        opacity: 1; /* Become fully opaque */
+        transform: scale(3); /* Scale up significantly to cover screen and zoom */
+        pointer-events: auto; /* Can intercept events if needed (though navigation happens quickly) */
+      }
+
     </style>
   </head>
   <body>
     <canvas id="c"></canvas>
+    <div id="transition-overlay"></div>
 
     <script>
-      // Initial setup for canvas context, required by the animation script
+      // --- Canvas Setup ---
       var b = document.body;
-      var c = document.getElementsByTagName('canvas')[0];
+      var c = document.getElementById('c'); // Use getElementById for clarity
       var a = c.getContext('2d');
-      // Setting canvas size initially - the script will resize it too
-      c.width = innerWidth;
-      c.height = innerHeight;
+      // Set initial canvas size - will be updated by resize handler and animation script
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
     </script>
 
     <script>
-      // Main animation logic from function-heart.js
-      e = []; // trails
-      h = []; // heart path
-      O = c.width = innerWidth; // Canvas width
-      Q = c.height = innerHeight; // Canvas height
+      // --- Heart Animation Logic ---
+      // Based on function-heart.js
 
-      v = 32; // num trails, num particles per trail & num nodes in heart path
-      M = Math;
-      R = M.random;
-      C = M.cos;
-      Y = 6.3; // close to Math.PI * 2
+      var e = []; // Array to hold the trails
+      var h = []; // Array to hold the heart shape path coordinates
+      var O = c.width = window.innerWidth; // Canvas width
+      var Q = c.height = window.innerHeight; // Canvas height
 
-      // Calculate heart nodes
-      for (i = 0; i < Y; i += 0.2) {
-        h.push([
-          O / 2 + 180 * M.pow(M.sin(i), 3),
-          Q / 2 + 10 * (-(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))),
-        ]);
+      var v = 32; // Number of trails, particles per trail, and nodes in heart path
+      var M = Math;
+      var R = M.random; // Shorthand for Math.random
+      var C = M.cos;    // Shorthand for Math.cos
+      var Y = M.PI * 2; // Represents a full circle (360 degrees in radians)
+
+      // --- Calculate Heart Shape Nodes ---
+      // Generates points forming a heart shape based on parametric equations
+      function calculateHeartPath() {
+        h = []; // Clear existing path
+        for (var i = 0; i < Y; i += 0.2) { // Iterate around a circle
+          // Parametric equations for a heart curve
+          var heartX = O / 2 + 180 * M.pow(M.sin(i), 3);
+          var heartY = Q / 2 + 10 * (-(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i)));
+          h.push([heartX, heartY]); // Add the calculated point to the path array
+        }
       }
+      calculateHeartPath(); // Calculate initial path
 
-      // Initialize trails and particles
-      i = 0;
-      while (i < v) {
-        x = R() * O;
-        y = R() * Q;
+      // --- Initialize Particle Trails ---
+      var i = 0;
+      while (i < v) { // Create 'v' number of trails
+        var x = R() * O; // Random initial x position
+        var y = R() * Q; // Random initial y position
 
-        H = (i / v) * 80 + 280; // Hue calculation
-        S = R() * 40 + 60; // Saturation
-        B = R() * 60 + 20; // Brightness
+        // Calculate color properties for the trail
+        var H = (i / v) * 80 + 280; // Hue (shifts through pink/purple range)
+        var S = R() * 40 + 60;     // Saturation
+        var B = R() * 60 + 20;     // Brightness
 
-        f = []; // create new trail
-        k = 0;
-        while (k < v) {
-          f[k++] = { // create new particle
-            x: x, y: y, // position
-            X: 0, Y: 0, // velocity
-            R: (1 - k / v) + 1, // radius
-            S: R() + 1, // acceleration
-            q: ~~(R() * v), // target node on heart path
-            D: (i % 2) * 2 - 1, // direction around heart path
-            F: R() * 0.2 + 0.7, // friction
-            f: "hsla(" + ~~H + "," + ~~S + "%," + ~~B + "%,.1)", // colour
+        var f = []; // Array for particles within this trail
+        var k = 0;
+        while (k < v) { // Create 'v' number of particles per trail
+          f[k++] = {
+            x: x, y: y,           // Position (initially same for all particles in trail)
+            X: 0, Y: 0,           // Velocity (starts at 0)
+            R: (1 - k / v) + 1,   // Radius (particles get smaller towards the end of the trail)
+            S: R() + 1,           // Acceleration factor
+            q: ~~(R() * v),       // Target node index on the heart path (random initial target)
+            D: (i % 2) * 2 - 1,   // Direction around heart path (+1 or -1)
+            F: R() * 0.2 + 0.7,   // Friction factor (slows down velocity)
+            // HSLA color string for the particle
+            f: "hsla(" + ~~H + "," + ~~S + "%," + ~~B + "%,.1)", // Semi-transparent
           };
         }
-        e[i++] = f; // dots are a 2d array of trails x particles
+        e[i++] = f; // Add the completed trail (array of particles) to the main trails array 'e'
       }
 
-      // Draw a single particle
-      function render(_) {
-        a.fillStyle = _.f;
-        a.beginPath();
-        a.arc(_.x, _.y, _.R, 0, Y, 1);
-        a.closePath();
-        a.fill();
+      // --- Render a Single Particle ---
+      // Draws a particle object onto the canvas
+      function renderParticle(_) {
+        a.fillStyle = _.f; // Set the particle's color
+        a.beginPath();     // Start drawing
+        a.arc(_.x, _.y, _.R, 0, Y, true); // Draw a circle (arc)
+        a.closePath();     // Close the path
+        a.fill();          // Fill the circle
       }
 
-      // Main animation loop
+      // --- Main Animation Loop ---
+      var animationRunning = true; // Flag to control if the animation should run
+      var animationFrameId;      // To store the request ID for cancellation
+
       function loop() {
-        // Clear screen with semi-transparent black for trails effect
+        // Stop the loop if the flag is set to false
+        if (!animationRunning) {
+            // Optionally clear the canvas one last time or leave trails
+            // a.fillStyle = "rgba(0,0,0,1)"; // To clear completely
+            // a.fillRect(0, 0, O, Q);
+            return;
+        }
+
+        // --- Clear Canvas ---
+        // Fill with semi-transparent black to create the trailing effect
         a.fillStyle = "rgba(0,0,0,.2)";
         a.fillRect(0, 0, O, Q);
 
-        i = v;
-        while (i--) {
-          f = e[i]; // get trail
-          u = f[0]; // get 1st particle of trail
-          q = h[u.q]; // get target node on heart path
-          D = u.x - q[0]; // calc distance to target x
-          E = u.y - q[1]; // calc distance to target y
-          G = M.sqrt(D * D + E * E); // total distance
+        // --- Update and Draw Particles ---
+        i = v; // Reset trail counter
+        while (i--) { // Loop through each trail (backwards for potential removal, though not used here)
+          var trail = e[i];   // Get the current trail
+          var leader = trail[0]; // Get the leading particle of the trail
+          var targetNode = h[leader.q]; // Get the current target node coordinates from the heart path
 
-          // If close to target node, pick a new target
-          if (G < 10) {
-            if (R() > 0.95) { // 5% chance to jump to random node
-              u.q = ~~(R() * v);
+          // Calculate distance to the target node
+          var dx = leader.x - targetNode[0];
+          var dy = leader.y - targetNode[1];
+          var distance = M.sqrt(dx * dx + dy * dy);
+
+          // --- Target Switching Logic ---
+          // If the leader particle is close to its target node...
+          if (distance < 10) {
+            // 5% chance to jump to a completely random node
+            if (R() > 0.95) {
+              leader.q = ~~(R() * v); // Assign a new random target index
             } else {
-              if (R() > 0.99) u.D *= -1; // 1% chance to reverse direction
-              u.q += u.D; // Move to next node in current direction
-              u.q %= v; // Wrap around
-              if (u.q < 0) u.q += v; // Ensure positive index
+              // 1% chance to reverse direction around the heart path
+              if (R() > 0.99) leader.D *= -1;
+              // Move to the next node in the current direction
+              leader.q += leader.D;
+              leader.q %= v; // Wrap around if index goes beyond bounds
+              if (leader.q < 0) leader.q += v; // Ensure index stays positive
             }
           }
 
-          // Accelerate towards target node
-          u.X += (-D / G) * u.S;
-          u.Y += (-E / G) * u.S;
+          // --- Apply Acceleration towards Target ---
+          // Calculate acceleration vector towards the target
+          leader.X += (-dx / distance) * leader.S;
+          leader.Y += (-dy / distance) * leader.S;
 
-          // Apply velocity
-          u.x += u.X;
-          u.y += u.Y;
+          // --- Update Leader Position ---
+          leader.x += leader.X;
+          leader.y += leader.Y;
 
-          render(u); // draw the first particle
+          // --- Render Leader Particle ---
+          renderParticle(leader);
 
-          // Apply friction
-          u.X *= u.F;
-          u.Y *= u.F;
+          // --- Apply Friction ---
+          leader.X *= leader.F;
+          leader.Y *= leader.F;
 
-          // Update trailing particles (Zeno's paradox)
+          // --- Update Trailing Particles ---
+          // Make each subsequent particle follow the one before it (Zeno's paradox effect)
           k = 0;
           while (k < v - 1) {
-            T = f[k]; // this particle
-            N = f[++k]; // next particle
-            N.x -= (N.x - T.x) * 0.7; // Move towards previous particle
-            N.y -= (N.y - T.y) * 0.7;
-            render(N); // draw trailing particle
+            var currentParticle = trail[k];
+            var nextParticle = trail[++k];
+            // Move the next particle towards the current one
+            nextParticle.x -= (nextParticle.x - currentParticle.x) * 0.7;
+            nextParticle.y -= (nextParticle.y - currentParticle.y) * 0.7;
+            // Render the trailing particle
+            renderParticle(nextParticle);
           }
+        } // End of trail loop
+
+        // Request the next frame if animation is still running
+        if (animationRunning) {
+            animationFrameId = requestAnimationFrame(loop);
         }
-      } // eo loop()
+      } // End of loop()
 
-      // Start the animation loop using requestAnimationFrame
-      (function doit() {
-        requestAnimationFrame(doit);
-        loop();
-      })();
+      // --- Start the Animation ---
+      loop(); // Initial call to start the loop
 
-       // --- Window Resize Handler ---
-       window.addEventListener("resize", function () {
-        // Update dimensions
+      // --- Window Resize Handler ---
+      window.addEventListener("resize", function () {
+        // Update canvas dimensions
         O = c.width = window.innerWidth;
         Q = c.height = window.innerHeight;
-        // Heart path nodes need recalculation based on new center
-        h = []; // Clear old path
-        for (i = 0; i < Y; i += 0.2) {
-            h.push([
-                O / 2 + 180 * M.pow(M.sin(i), 3),
-                Q / 2 + 10 * (-(15 * C(i) - 5 * C(2 * i) - 2 * C(3 * i) - C(4 * i))),
-            ]);
-        }
+        // Recalculate heart path based on new center
+        calculateHeartPath();
+        // No need to restart loop, it adapts automatically
       });
 
     </script>
 
     <script>
-      // Wait for 6 seconds then navigate
-      const navigationTarget = 'birthday-cake.html'; // The filename for the main card
-      const preloaderDuration = 4000; // 6 seconds in milliseconds
+      // --- Navigation and Transition Logic ---
 
+      const navigationTarget = 'valentine-confession.html'; // Target page
+      const preloaderDuration = 4000; // Milliseconds for heart animation (4 seconds)
+      const transitionDuration = 1500; // Milliseconds for zoom/fade effect (1.5 seconds - should match CSS)
+
+      // Set a timeout to start the transition after the preloader duration
       setTimeout(() => {
-        window.location.href = navigationTarget;
-      }, preloaderDuration);
+        // 1. Stop the heart animation
+        animationRunning = false; // Signal the loop to stop
+        // cancelAnimationFrame(animationFrameId); // Optional: Explicitly cancel the frame request
+
+        // 2. Start fading out the canvas
+        c.style.opacity = '0';
+
+        // 3. Activate the transition overlay
+        const overlay = document.getElementById('transition-overlay');
+        overlay.classList.add('active'); // Add the 'active' class to trigger CSS transitions
+
+        // 4. Set another timeout to navigate *after* the transition animation finishes
+        setTimeout(() => {
+          window.location.href = navigationTarget; // Navigate to the target page
+        }, transitionDuration); // Wait for the duration of the CSS transition
+
+      }, preloaderDuration); // Initial wait time before starting the transition
+
     </script>
 
   </body>
