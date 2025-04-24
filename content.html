@@ -3,12 +3,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Mathii! 🎉</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Happy Birthday Mathii! 🎂</title> <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&family=Pacifico&display=swap" rel="stylesheet">
     <style>
-      /* Use Lato for base, Pacifico for headings/buttons */
+      /* CSS Variables for theming */
       :root {
         --base-font: 'Lato', sans-serif;
         --cute-font: 'Pacifico', cursive;
@@ -22,6 +21,7 @@
         --text-color: #333;
         --white-color: #fff;
         --heart-color: #ff4d4d; /* Brighter Red for hearts */
+        --message-bg: #fff0f5; /* Lavender blush for message section */
       }
 
       /* Basic Setup */
@@ -31,23 +31,22 @@
         min-height: 100vh;
         scrollbar-width: none; /* Firefox */
         -ms-overflow-style: none; /* IE and Edge */
-        overflow-x: hidden;
+        overflow-x: hidden; /* Prevent horizontal scroll */
         margin: 0;
         padding: 0;
-        font-family: var(--base-font);
       }
-      /* Hide scrollbar for Chrome, Safari and Opera */
+      /* Hide scrollbar for Webkit browsers */
       body::-webkit-scrollbar {
           display: none;
       }
 
       body {
-        background: var(--primary-accent); /* fallback */
-        background: linear-gradient(135deg, var(--background-start), var(--background-end));
+        background: var(--primary-accent); /* Fallback background */
+        background: linear-gradient(135deg, var(--background-start), var(--background-end)); /* Gradient background */
         color: var(--text-color);
-        position: relative;
-        opacity: 0; /* Start transparent */
-        animation: pageFadeIn 1.5s 0.2s ease-out forwards; /* Apply animation */
+        position: relative; /* Needed for absolute positioning context */
+        opacity: 0; /* Start transparent for fade-in */
+        animation: pageFadeIn 1.5s 0.2s ease-out forwards; /* Apply fade-in animation */
       }
 
       /* --- Keyframes for Page Fade-in --- */
@@ -62,14 +61,14 @@
         padding: 2rem;
         background-color: var(--primary-accent);
         color: var(--white-color);
-        box-shadow: 0 2px 10px var(--shadow-light);
+        box-shadow: 0 2px 10px var(--shadow-light); /* Subtle shadow */
       }
 
       header h1 {
- /* Apply cute font */
-        font-size: 2.8rem; /* Slightly larger */
+      /* Apply cute font */
+        font-size: 2.8rem;
         margin-bottom: 0.5rem;
-        font-weight: 400; /* Pacifico is usually lighter */
+        font-weight: 400; /* Pacifico is often lighter */
       }
 
       header p {
@@ -80,49 +79,49 @@
       /* --- Intro Section --- */
       .intro {
         text-align: center;
-        padding: 2rem 1rem; /* Add horizontal padding */
+        padding: 2rem 1rem;
         font-size: 1.25rem;
-        max-width: 800px;
-        margin: 1rem auto; /* Add vertical margin */
-        line-height: 1.6;
+        max-width: 800px; /* Limit width */
+        margin: 1rem auto; /* Center and add vertical margin */
+        line-height: 1.6; /* Improve readability */
       }
 
       /* --- Gallery Section --- */
       .gallery {
         padding: 1rem;
-        max-width: 1000px;
-        margin: 0 auto;
+        max-width: 1000px; /* Limit width */
+        margin: 0 auto; /* Center */
         display: flex;
-        flex-direction: column; /* Keep gallery column overall */
-        gap: 2rem; /* Add gap between top section and carousel wrapper */
+        flex-direction: column;
+        gap: 2rem; /* Space between top section and carousels */
       }
 
-      /* --- Top Image Section --- */
+      /* --- Top Image Section (Main + Side Images) --- */
       .top-section {
         display: flex;
         justify-content: center;
-        align-items: stretch;
+        align-items: stretch; /* Make items same height */
         gap: 1rem;
-        flex-wrap: wrap; /* Allow wrapping */
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
       }
 
       .top-image {
-        flex: 2.5;
-        min-width: min(60%, 400px); /* Ensure it doesn't get too small */
+        flex: 2.5; /* Takes more space */
+        min-width: min(60%, 400px); /* Responsive minimum width */
       }
 
       .top-image img {
         width: 100%;
         height: 100%;
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-        border-radius: 10px;
+        aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+        object-fit: cover; /* Cover the area */
+        border-radius: 10px; /* Rounded corners */
         box-shadow: 0 4px 8px var(--shadow-light);
-        display: block;
+        display: block; /* Remove extra space */
       }
 
       .side-images {
-        flex: 1;
+        flex: 1; /* Takes less space */
         min-width: 150px;
         display: flex;
         flex-direction: column;
@@ -132,7 +131,7 @@
       .side-images img {
         width: 100%;
         height: auto;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 1 / 1; /* Square aspect ratio */
         object-fit: cover;
         border-radius: 10px;
         box-shadow: 0 4px 8px var(--shadow-light);
@@ -142,56 +141,53 @@
       /* Hover effects for gallery images */
       .top-image img,
       .side-images img,
-      .carousel-slide img {
-        transition: transform 0.4s ease, box-shadow 0.4s ease;
+      .carousel-slide img,
+      .slideshow-slide img { /* Added slideshow images */
+        transition: transform 0.4s ease, box-shadow 0.4s ease; /* Smooth transition */
         cursor: pointer;
       }
 
       .top-image img:hover,
       .side-images img:hover,
-      .carousel-slide img:hover {
-        transform: scale(1.03);
-        box-shadow: 0 6px 16px var(--shadow-dark);
+      .carousel-slide img:hover,
+      .slideshow-slide img:hover { /* Added slideshow images */
+        transform: scale(1.03); /* Slight zoom effect */
+        box-shadow: 0 6px 16px var(--shadow-dark); /* Enhance shadow */
       }
 
-      /* --- NEW: Carousel Wrapper --- */
+      /* --- Carousel Wrapper --- */
       .carousel-wrapper {
         display: flex;
-        justify-content: space-between; /* Distribute space between carousels */
-        align-items: flex-start; /* Align tops */
-        flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        width: 100%; /* Take full width of gallery */
+        justify-content: space-between; /* Space out carousels */
+        align-items: flex-start;
+        flex-wrap: wrap; /* Allow wrapping */
+        width: 100%;
       }
 
       /* --- Carousel Common Styles --- */
       .image-carousel-container {
-        width: 48%; /* Each carousel takes slightly less than half */
-        overflow: hidden;
+        width: 48%; /* Each takes slightly less than half width */
+        overflow: hidden; /* Hide overflowing slides */
         border-radius: 10px;
         box-shadow: 0 5px 15px var(--shadow-light);
-        position: relative; /* Needed for absolute positioning of buttons */
-        margin-bottom: 1rem; /* Consistent bottom margin */
-        /* Remove specific left/right margins */
+        position: relative; /* For positioning buttons */
+        margin-bottom: 1rem;
       }
-
-      /* Remove specific alignment classes for left/right */
-      /* .image-carousel-container-left, .image-carousel-container-right removed */
-
 
       .carousel-track {
         display: flex;
-        transition: transform 0.5s ease-in-out;
-        height: 100%; /* Ensure track takes full height */
+        transition: transform 0.5s ease-in-out; /* Slide transition */
+        height: 100%;
       }
 
       .carousel-slide {
-        flex: 0 0 100%;
+        flex: 0 0 100%; /* Each slide takes full width of container */
         box-sizing: border-box;
         padding: 1rem;
-        display: grid;
+        display: grid; /* Use grid for image layout within slide */
         gap: 1rem;
-        min-height: 350px; /* Ensure minimum height */
-        align-content: start; /* Align grid items to the start */
+        min-height: 350px; /* Ensure consistent height */
+        align-content: start; /* Align grid items to top */
       }
 
       /* Grid layout for Slide 1 (2x2 images) */
@@ -202,42 +198,42 @@
 
       /* Grid layout for Slide 2 (1 tall left, 2 stacked right) */
       .grid-slide-2 {
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: repeat(2, 1fr);
-        align-items: stretch; /* Stretch items vertically */
+        grid-template-columns: 2fr 1fr; /* Left column wider */
+        grid-template-rows: repeat(2, 1fr); /* Two equal rows */
+        align-items: stretch; /* Stretch items to fill height */
       }
 
       /* Grid layout for Slide 3 (2 stacked horizontal images) */
       .grid-slide-3 {
         grid-template-columns: 1fr; /* Single column */
-        gap: 1rem; /* Ensure gap between stacked images */
+        gap: 1rem;
       }
 
       /* Image styles within carousel slides */
       .carousel-slide img {
         width: 100%;
-        height: 100%; /* Allow height to fill grid area */
+        height: 100%; /* Fill grid area */
         object-fit: cover;
         border-radius: 8px;
         box-shadow: 0 2px 6px var(--shadow-light);
         display: block;
       }
 
-      /* Specific aspect ratios and placement */
+      /* Specific aspect ratios and placement for grid layouts */
       .grid-slide-1 img {
-          aspect-ratio: 4 / 5; /* Make them square */
+          aspect-ratio: 4 / 5; /* Squarer images */
       }
 
       .grid-slide-2 img:nth-child(1) {
-          grid-column: 1 / 2; grid-row: 1 / 3;
+          grid-column: 1 / 2; grid-row: 1 / 3; /* Span both rows */
           aspect-ratio: 3 / 4; /* Tall aspect ratio */
       }
       .grid-slide-2 img:nth-child(2) {
-          grid-column: 2 / 3; grid-row: 1 / 2;
+          grid-column: 2 / 3; grid-row: 1 / 2; /* Top right */
           aspect-ratio: 16 / 9; /* Wide aspect ratio */
       }
       .grid-slide-2 img:nth-child(3) {
-          grid-column: 2 / 3; grid-row: 2 / 3;
+          grid-column: 2 / 3; grid-row: 2 / 3; /* Bottom right */
           aspect-ratio: 16 / 9; /* Wide aspect ratio */
       }
 
@@ -245,61 +241,137 @@
           aspect-ratio: 16 / 9; /* Wider aspect ratio */
       }
 
-      /* Carousel Buttons */
+      /* Carousel Buttons (Prev/Next) */
       .carousel-button {
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.4);
+        transform: translateY(-50%); /* Center vertically */
+        background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
         color: var(--white-color);
         border: none;
-        padding: 0.6rem; /* Slightly smaller padding */
+        padding: 0.6rem;
         cursor: pointer;
-        border-radius: 50%;
-        z-index: 10;
+        border-radius: 50%; /* Circular buttons */
+        z-index: 10; /* Above slides */
         font-size: 1.5rem;
-        line-height: 1;
+        line-height: 1; /* Ensure icon fits */
         transition: background-color 0.3s ease, transform 0.2s ease;
-        width: 40px; /* Fixed width */
-        height: 40px; /* Fixed height */
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
       .carousel-button:hover {
-        background-color: rgba(0, 0, 0, 0.7);
-        transform: translateY(-50%) scale(1.1); /* Add slight scale on hover */
+        background-color: rgba(0, 0, 0, 0.7); /* Darker on hover */
+        transform: translateY(-50%) scale(1.1); /* Slight scale effect */
       }
       .carousel-button.prev {
-        left: 10px; /* Position relative to container edge */
+        left: 10px; /* Position on left */
       }
       .carousel-button.next {
-        right: 10px; /* Position relative to container edge */
+        right: 10px; /* Position on right */
       }
       /* --- End Carousel Styles --- */
 
 
       /* --- Message Section --- */
       .message-section {
-        background-color: #fff0f5; /* Lavender blush */
-        padding: 7rem 7rem;
-        text-align: left;
-        margin-top: 1rem;
+        background-color: var(--message-bg);
+        padding: 3rem 4rem; /* Generous padding */
+        margin: 2rem auto; /* Center and add vertical margin */
+        display: flex; /* Use flexbox for side-by-side layout */
+        align-items: center; /* Vertically center content */
+        gap: 2rem; /* Space between text and slideshow */
+        max-width: 1100px; /* Limit overall width */
+        border-radius: 15px; /* Softer corners */
+        box-shadow: 0 5px 15px var(--shadow-medium);
+        flex-wrap: wrap; /* Allow stacking on smaller screens */
       }
+
+      .message-content {
+        flex: 1.2; /* Allow text content to take slightly more space */
+        min-width: 300px; /* Minimum width before wrapping */
+      }
+
       .message-section h2 {
-        /* Apply cute font */
         font-size: 2.2rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         color: var(--secondary-accent);
         font-weight: 400;
       }
       .message-section p {
-        max-width: 600px;
         margin: 0;
         font-size: 1.2rem;
         line-height: 1.7;
         color: var(--text-color);
       }
+
+      /* --- New Image Slideshow Container --- */
+      .image-slideshow-container {
+         flex: 1; /* Allow slideshow container to take remaining space */
+         min-width: 300px; /* Minimum width */
+         max-width: 450px; /* Maximum width */
+         aspect-ratio: 4 / 3; /* Adjust aspect ratio as needed */
+         background-color: #eee; /* Light background for contrast */
+         border-radius: 10px;
+         overflow: hidden; /* Crucial for containing the slides */
+         position: relative; /* For positioning buttons */
+         box-shadow: 0 4px 12px var(--shadow-light);
+      }
+
+      .slideshow-track {
+        display: flex;
+        height: 100%;
+        transition: transform 0.5s ease-in-out; /* Slide transition */
+      }
+
+      .slideshow-slide {
+        flex: 0 0 100%; /* Each slide takes full width */
+        height: 100%;
+        box-sizing: border-box;
+      }
+
+      .slideshow-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cover the slide area */
+        display: block; /* Remove extra space */
+        border-radius: 10px; /* Match container rounding */
+      }
+
+      /* Slideshow Buttons (Prev/Next) - Reuse carousel button styles with adjustments */
+      .slideshow-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.4);
+        color: var(--white-color);
+        border: none;
+        padding: 0.5rem; /* Slightly smaller padding */
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 10;
+        font-size: 1.3rem; /* Slightly smaller font */
+        line-height: 1;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 35px; /* Smaller size */
+        height: 35px; /* Smaller size */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .slideshow-button:hover {
+        background-color: rgba(0, 0, 0, 0.7);
+        transform: translateY(-50%) scale(1.1);
+      }
+      .slideshow-button.prev {
+        left: 8px; /* Adjust position */
+      }
+      .slideshow-button.next {
+        right: 8px; /* Adjust position */
+      }
+      /* --- End Image Slideshow --- */
 
       /* --- Footer --- */
       footer {
@@ -311,42 +383,44 @@
         font-style: italic;
       }
 
-      /* --- Floating Hearts CSS --- */
+      /* --- Floating Hearts Background Animation --- */
       .floating-hearts {
-        position: fixed;
+        position: fixed; /* Fixed position relative to viewport */
         top: 0;
         left: 0;
-        pointer-events: none;
+        pointer-events: none; /* Allow clicks through */
         width: 100%;
         height: 100%;
-        z-index: 999;
-        overflow: hidden; /* Prevent hearts causing scroll */
+        z-index: -1; /* Behind other content (adjust if needed) */
+        overflow: hidden; /* Prevent scrollbars */
       }
       .heart {
         position: absolute;
         width: 20px;
         height: 20px;
-        background: var(--heart-color); /* Use variable */
-        transform: rotate(-45deg);
-        animation: floatUp 6s linear infinite;
-        opacity: 0;
+        background: var(--heart-color);
+        transform: rotate(-45deg); /* Create heart shape */
+        animation: floatUp 6s linear infinite; /* Animation properties */
+        opacity: 0; /* Start invisible */
       }
+      /* Pseudo-elements to form the top curves of the heart */
       .heart::before, .heart::after {
         content: '';
         position: absolute;
         width: 20px;
         height: 20px;
-        background: inherit;
+        background: inherit; /* Use parent's background color */
         border-radius: 50%;
       }
-      .heart::before { top: -10px; left: 0; }
-      .heart::after { left: 10px; top: 0; }
+      .heart::before { top: -10px; left: 0; } /* Top-left curve */
+      .heart::after { left: 10px; top: 0; } /* Top-right curve */
 
+      /* Keyframes for the floating animation */
       @keyframes floatUp {
-        0% { transform: translateY(100vh) rotate(-45deg) scale(0.5); opacity: 0; }
-        10% { opacity: 0.7; }
-        90% { opacity: 0.7; }
-        100% { transform: translateY(-10vh) rotate(-45deg) scale(1.2); opacity: 0; } /* Increased end scale */
+        0% { transform: translateY(100vh) rotate(-45deg) scale(0.5); opacity: 0; } /* Start at bottom, small, transparent */
+        10% { opacity: 0.7; } /* Fade in */
+        90% { opacity: 0.7; } /* Stay visible */
+        100% { transform: translateY(-10vh) rotate(-45deg) scale(1.2); opacity: 0; } /* Float up past top, larger, fade out */
       }
       /* --- End Floating Hearts --- */
 
@@ -354,73 +428,99 @@
       /* Screens smaller than 900px: Stack carousels */
       @media (max-width: 900px) {
         .carousel-wrapper {
-            flex-direction: column; /* Stack carousels vertically */
-            align-items: center; /* Center items when stacked */
-            gap: 2rem; /* Add gap when stacked */
+            flex-direction: column; /* Stack carousels */
+            align-items: center; /* Center when stacked */
+            gap: 2rem;
         }
         .image-carousel-container {
-            width: 80%; /* Carousels take more width when stacked */
+            width: 80%; /* Wider when stacked */
+        }
+        .message-section {
+           padding: 2rem; /* Reduce padding */
+           /* Keep flex-direction: row for message/slideshow */
         }
       }
 
-      /* Screens smaller than 768px: Adjust top section, carousel width */
+      /* Screens smaller than 768px: Adjust layouts */
       @media (max-width: 768px) {
         header h1 { font-size: 2.2rem; }
         .gallery { padding: 0.5rem; gap: 1rem; }
-        .top-section { flex-direction: column; }
+        .top-section { flex-direction: column; } /* Stack top images */
         .top-image, .side-images { flex: none; width: 100%; max-width: 100%; }
-        .side-images { flex-direction: row; justify-content: space-between; }
+        .side-images { flex-direction: row; justify-content: space-between; } /* Side images side-by-side */
         .side-images img { width: 48%; }
 
         .image-carousel-container {
-            width: 95%; /* Almost full width when stacked */
+            width: 95%; /* Almost full width */
         }
         .carousel-slide { padding: 0.5rem; min-height: 300px; }
-        /* Adjust grid layouts for smaller screens if needed */
-        .grid-slide-1, .grid-slide-3 { grid-template-columns: repeat(2, 1fr); } /* Keep 2 columns */
-        .grid-slide-2 { grid-template-columns: 1fr; grid-template-rows: auto; } /* Stack slide 2 */
-        .grid-slide-2 img { grid-column: auto; grid-row: auto; aspect-ratio: 16 / 9 !important; height: auto; } /* Reset slide 2 grid placement */
-        .grid-slide-3 { grid-template-columns: 1fr; } /* Slide 3 single column */
+        /* Adjust grid layouts for smaller screens */
+        .grid-slide-1, .grid-slide-3 { grid-template-columns: repeat(2, 1fr); }
+        .grid-slide-2 { grid-template-columns: 1fr; grid-template-rows: auto; } /* Stack images in slide 2 */
+        .grid-slide-2 img { grid-column: auto; grid-row: auto; aspect-ratio: 16 / 9 !important; height: auto; } /* Reset grid placement */
+        .grid-slide-3 { grid-template-columns: 1fr; }
 
-        .message-section h2 { font-size: 1.8rem; }
+        /* Stack message section content */
+        .message-section {
+            flex-direction: column; /* Stack text and slideshow */
+            padding: 2rem 1.5rem;
+            text-align: center; /* Center heading */
+        }
+        .message-content {
+           text-align: left; /* Keep paragraph left-aligned */
+           flex-basis: auto; /* Reset flex basis */
+        }
+        .message-section h2 { font-size: 1.8rem; text-align: center; }
         .message-section p { font-size: 1.1rem; }
+        .image-slideshow-container {
+           max-width: 90%; /* Allow slideshow to take more width */
+           margin: 1rem auto 0; /* Add space above when stacked */
+           aspect-ratio: 16 / 9; /* Wider aspect ratio when stacked */
+           flex-basis: auto; /* Reset flex basis */
+        }
       }
 
-      /* Screens smaller than 480px: Single column everything */
+      /* Screens smaller than 480px: Further adjustments */
       @media (max-width: 480px) {
         header h1 { font-size: 1.8rem; }
         header p { font-size: 1rem; }
         .intro { font-size: 1.1rem; }
-        .grid-slide-1, .grid-slide-3 { grid-template-columns: 1fr; } /* All slides single column */
-        .side-images { flex-direction: column; }
+        .grid-slide-1, .grid-slide-3 { grid-template-columns: 1fr; } /* Single column slides */
+        .side-images { flex-direction: column; } /* Stack side images */
         .side-images img { width: 100%; }
-        .carousel-button { padding: 0.5rem; font-size: 1.2rem; width: 35px; height: 35px; }
+        .carousel-button { padding: 0.5rem; font-size: 1.2rem; width: 35px; height: 35px; } /* Smaller buttons */
         .carousel-button.prev { left: 5px; }
         .carousel-button.next { right: 5px; }
+        .message-section { padding: 1.5rem 1rem; }
         .message-section h2 { font-size: 1.6rem; }
         .message-section p { font-size: 1rem; }
+        .image-slideshow-container {
+           min-height: 200px; /* Adjust min height */
+        }
+        .slideshow-button { /* Make slideshow buttons slightly smaller */
+            width: 30px; height: 30px; font-size: 1rem; padding: 0.4rem;
+        }
+        .slideshow-button.prev { left: 5px; }
+        .slideshow-button.next { right: 5px; }
       }
 
     </style>
   </head>
 <body>
     <header>
-        <h1>Happy Birthday, Mathii! 🎂</h1>
-        <p>Wishing you a day filled with love, joy, and endless memories 💖</p>
-    </header>
+        <h1>Happy Birthday, Mathii! 🎉</h1> <p>Wishing you a day filled with love, joy, and endless memories 🥰</p> </header>
 
     <section class="intro">
-        <p>From our first conversation to now, you've been such a bright light in my life. Here's a little something to celebrate you 🥳</p>
-    </section>
+        <p>From our first conversation to now, you've been such a bright light in my life. Here's a little something to celebrate you ✨</p> </section>
 
     <section class="gallery">
         <div class="top-section">
             <div class="top-image">
-                <img src="bg pic 2.jpg" alt="A large cherished memory photo" />
+                <img src="bg pic 2.jpg" alt="A large cherished memory photo" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Image+Error';">
             </div>
             <div class="side-images">
-                 <img src="side 1.jpg" alt="A fun moment captured" />
-                 <img src="side 2.jpg" alt="A happy smiling photo" />
+                 <img src="bg pic.jpg" alt="A fun moment captured" onerror="this.onerror=null;this.src='https://placehold.co/300x300/cccccc/ffffff?text=Image+Error';">
+                 <img src="bg pic 3.jpg" alt="A happy smiling photo" onerror="this.onerror=null;this.src='https://placehold.co/300x300/cccccc/ffffff?text=Image+Error';">
             </div>
         </div>
 
@@ -428,19 +528,19 @@
             <div class="image-carousel-container">
                 <div class="carousel-track">
                     <div class="carousel-slide grid-slide-1">
-                        <img src="bg pic 3.jpg" alt="Grid photo 1" />
-                        <img src="bg pic 4.jpg" alt="Grid photo 2" />
-                        <img src="bg pic 5.jpg" alt="Grid photo 3" />
-                        <img src="bg pic 6.jpg" alt="Grid photo 4" />
+                        <img src="bg pic 6.jpg" alt="Grid photo 1" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="c1.jpg" alt="Grid photo 2" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="s3.jpg" alt="Grid photo 3" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="s4.jpg" alt="Grid photo 4" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
                     </div>
                     <div class="carousel-slide grid-slide-2">
-                        <img src="slider 3.jpg" alt="Grid photo 5" />
-                        <img src="slider 4.jpg" alt="Grid photo 6" />
-                        <img src="slider 5.jpg" alt="Grid photo 7" />
+                        <img src="slider 1.jpg" alt="Grid photo 5" onerror="this.onerror=null;this.src='https://placehold.co/450x600/cccccc/ffffff?text=Error';">
+                        <img src="slider 2.jpg" alt="Grid photo 6" onerror="this.onerror=null;this.src='https://placehold.co/400x225/cccccc/ffffff?text=Error';">
+                        <img src="slider 3.jpg" alt="Grid photo 7" onerror="this.onerror=null;this.src='https://placehold.co/400x225/cccccc/ffffff?text=Error';">
                     </div>
                     <div class="carousel-slide grid-slide-3">
-                        <img src="c2.jpg" alt="Grid photo 8" />
-                        <img src="s5.jpg" alt="Grid photo 9" />
+                        <img src="s5.jpg" alt="Grid photo 8" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Error';">
+                        <img src="s8.jpg" alt="Grid photo 9" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Error';">
                     </div>
                 </div>
                 <button class="carousel-button prev" aria-label="Previous slide">&#10094;</button>
@@ -449,149 +549,219 @@
 
             <div class="image-carousel-container">
                 <div class="carousel-track">
-            
-                    <div class="carousel-slide grid-slide-2">
-                        <img src="bg pic.jpg" alt="Grid photo 14" />
-                        <img src="slider 1.jpg" alt="Grid photo 15" />
-                        <img src="slider 2.jpg" alt="Grid photo 16" />
+                     <div class="carousel-slide grid-slide-2">
+                         <img src="3.jpg" alt="Grid photo 14" onerror="this.onerror=null;this.src='https://placehold.co/450x600/cccccc/ffffff?text=Error';">
+                         <img src="s7.jpg" alt="Grid photo 15" onerror="this.onerror=null;this.src='https://placehold.co/400x225/cccccc/ffffff?text=Error';">
+                         <img src="c1.jpg" alt="Grid photo 16" onerror="this.onerror=null;this.src='https://placehold.co/400x225/cccccc/ffffff?text=Error';">
                     </div>
-                    <div class="carousel-slide grid-slide-1">
-                        <img src="s4.jpg" alt="Grid photo 10" />
-                        <img src="s6.jpg" alt="Grid photo 11" />
-                        <img src="s3.jpg" alt="Grid photo 12" />
-                        <img src="h2.jpg" alt="Grid photo 13" />
+                     <div class="carousel-slide grid-slide-1">
+                        <img src="side 1.jpg" alt="Grid photo 10" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="side 2.jpg" alt="Grid photo 11" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="slider 4.jpg" alt="Grid photo 12" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
+                        <img src="slider 5.jpg" alt="Grid photo 13" onerror="this.onerror=null;this.src='https://placehold.co/400x500/cccccc/ffffff?text=Error';">
                     </div>
                     <div class="carousel-slide grid-slide-3">
-                        <img src="h.jpg" alt="Grid photo 17" />
-                        <img src="s7.jpg" alt="Grid photo 18" />
+                         <img src="1.jpg" alt="Grid photo 17" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Error';">
+                         <img src="5.jpg" alt="Grid photo 18" onerror="this.onerror=null;this.src='https://placehold.co/800x450/cccccc/ffffff?text=Error';">
                     </div>
                 </div>
-                <button class="carousel-button prev" aria-label="Previous slide">&#10094;</button>
+                 <button class="carousel-button prev" aria-label="Previous slide">&#10094;</button>
                 <button class="carousel-button next" aria-label="Next slide">&#10095;</button>
             </div>
-        </div> </section>
+        </div>
+    </section>
 
     <section class="message-section">
-        <h2>A Special Message 💌</h2>
-        <p>
-            Mathii, your kindness, your laughter, and your energy make the world better just by being in it. You deserve all the love and happiness today and always. Keep shining and chasing your dreams. I'm so lucky to know you. Happy Birthday again! 💕
-        </p>
+        <div class="message-content">
+          <h2>A Special Message 💌</h2> <p>
+              Mathii, your kindness, your laughter, and your energy make the world better just by being in it. You deserve all the love and happiness today and always. Keep shining and chasing your dreams. I'm so lucky to know you. Happy Birthday again! 💖 </p>
+        </div>
+        <div class="image-slideshow-container" id="special-slideshow">
+            <div class="slideshow-track">
+                <div class="slideshow-slide">
+                    <img src="1.jpg" alt="Special moment 1" onerror="this.onerror=null;this.src='https://placehold.co/600x450/cccccc/ffffff?text=Error';">
+                </div>
+                <div class="slideshow-slide">
+                    <img src="2.jpg" alt="Special moment 2" onerror="this.onerror=null;this.src='https://placehold.co/600x450/cccccc/ffffff?text=Error';">
+                </div>
+                <div class="slideshow-slide">
+                    <img src="3.jpg" alt="Special moment 3" onerror="this.onerror=null;this.src='https://placehold.co/600x450/cccccc/ffffff?text=Error';">
+                </div>
+                 <div class="slideshow-slide">
+                    <img src="5.jpg" alt="Special moment 4" onerror="this.onerror=null;this.src='https://placehold.co/600x450/cccccc/ffffff?text=Error';">
+                </div>
+            </div>
+            <button class="slideshow-button prev" aria-label="Previous special slide">&#10094;</button>
+            <button class="slideshow-button next" aria-label="Next special slide">&#10095;</button>
+        </div>
     </section>
 
     <footer>
-        <p>Made with 💖 just for you, Mathii</p>
-    </footer>
+        <p>Made with ❤️ just for you, Mathii</p> </footer>
 
     <div class="floating-hearts" id="floatingHearts"></div>
 
     <script>
-      // --- Floating Hearts Script ---
+      // --- Floating Hearts Background Script ---
       function createFloatingHearts() {
         const heartContainer = document.getElementById('floatingHearts');
         if (!heartContainer) return; // Exit if container not found
 
-        // Function to create a single heart
         const createHeart = () => {
           const heart = document.createElement('div');
           heart.classList.add('heart');
-          // Random horizontal start position
           heart.style.left = Math.random() * 100 + 'vw';
-          // Random animation duration (4 to 8 seconds)
-          const duration = Math.random() * 4 + 4;
+          const duration = Math.random() * 4 + 4; // Between 4 and 8 seconds
           heart.style.animationDuration = duration + 's';
-          // Random size scale (0.5 to 1.0)
           heart.style.transform = `scale(${Math.random() * 0.5 + 0.5}) rotate(-45deg)`;
-          // Slight random delay for staggering
           heart.style.animationDelay = (Math.random() * 1) + 's';
-
           heartContainer.appendChild(heart);
 
-          // Remove the heart after its animation finishes + a buffer
           setTimeout(() => {
-            heart.remove();
-          }, duration * 1000 + 1000); // Match animation duration + 1s buffer
+            if (heart && heart.parentNode === heartContainer) {
+                 heart.remove();
+            }
+          }, duration * 1000 + 1000);
         };
-
-        // Create hearts at intervals
-        setInterval(createHeart, 400); // Create a new heart every 400ms
+        setInterval(createHeart, 400);
       }
 
       // --- Carousel Script (Handles Multiple Carousels) ---
       function initializeCarousels() {
-        // Select all carousel containers
         const carouselContainers = document.querySelectorAll('.image-carousel-container');
-        const autoPlayDelay = 5000; // Delay in ms (5 seconds)
+        const autoPlayDelay = 5000;
 
-        // Iterate over each carousel found
         carouselContainers.forEach((container, index) => {
           const track = container.querySelector('.carousel-track');
           const slides = track ? Array.from(track.children) : [];
           const nextButton = container.querySelector('.carousel-button.next');
           const prevButton = container.querySelector('.carousel-button.prev');
 
-          // Only proceed if all necessary elements are found for this carousel
           if (track && slides.length > 0 && nextButton && prevButton) {
             let currentIndex = 0;
             const maxIndex = slides.length - 1;
-            let autoPlayInterval = null; // Interval ID specific to this carousel
+            let autoPlayInterval = null;
 
-            // Function to move to a specific slide index
             const moveToSlide = (targetIndex) => {
-              // Wrap around logic
               if (targetIndex < 0) { targetIndex = maxIndex; }
               else if (targetIndex > maxIndex) { targetIndex = 0; }
-
               const amountToMove = -targetIndex * 100 + '%';
               track.style.transform = 'translateX(' + amountToMove + ')';
               currentIndex = targetIndex;
             };
 
-            // Function to start auto-play for this carousel
             const startAutoPlay = () => {
-              // Clear existing interval *for this specific carousel*
-              clearInterval(autoPlayInterval);
+              stopAutoPlay();
               autoPlayInterval = setInterval(() => {
                 moveToSlide(currentIndex + 1);
               }, autoPlayDelay);
             };
 
-            // Function to stop auto-play for this carousel
             const stopAutoPlay = () => {
               clearInterval(autoPlayInterval);
             };
 
-            // Next button event listener
             nextButton.addEventListener('click', () => {
-              stopAutoPlay(); // Stop auto-play on manual click
+              stopAutoPlay();
               moveToSlide(currentIndex + 1);
-              startAutoPlay(); // Restart auto-play after manual click
+              startAutoPlay();
             });
 
-            // Previous button event listener
             prevButton.addEventListener('click', () => {
-              stopAutoPlay(); // Stop auto-play on manual click
+              stopAutoPlay();
               moveToSlide(currentIndex - 1);
-              startAutoPlay(); // Restart auto-play after manual click
+              startAutoPlay();
             });
 
-            // Pause auto-play on hover for this specific container
             container.addEventListener('mouseenter', stopAutoPlay);
             container.addEventListener('mouseleave', startAutoPlay);
 
-            // Start auto-play initially for this carousel
             startAutoPlay();
 
           } else {
-            // Log an error specific to the carousel that failed
-            console.error(`Carousel elements not found in container index ${index}!`);
+            console.error(`Carousel elements not found in container index ${index}.`);
           }
         });
       }
 
-      // --- Initialize everything after the DOM is loaded ---
+      // --- NEW Image Slideshow Script ---
+      function initializeSlideshow(containerId) {
+          const slideshowContainer = document.getElementById(containerId);
+          if (!slideshowContainer) {
+              console.error(`Slideshow container with id "${containerId}" not found.`);
+              return;
+          }
+
+          const track = slideshowContainer.querySelector('.slideshow-track');
+          const slides = track ? Array.from(track.children) : [];
+          const nextButton = slideshowContainer.querySelector('.slideshow-button.next');
+          const prevButton = slideshowContainer.querySelector('.slideshow-button.prev');
+          const autoPlayDelay = 4000; // Slightly faster autoplay for this one
+          let currentIndex = 0;
+          let autoPlayInterval = null;
+
+          if (!track || slides.length === 0 || !nextButton || !prevButton) {
+              console.error(`Essential elements missing within slideshow container "${containerId}".`);
+              // Optionally hide buttons if slides are missing
+              if (prevButton) prevButton.style.display = 'none';
+              if (nextButton) nextButton.style.display = 'none';
+              return;
+          }
+
+          const maxIndex = slides.length - 1;
+
+          // Function to move to a specific slide
+          const moveToSlide = (targetIndex) => {
+              // Handle looping
+              if (targetIndex < 0) { targetIndex = maxIndex; }
+              else if (targetIndex > maxIndex) { targetIndex = 0; }
+
+              const amountToMove = -targetIndex * 100 + '%';
+              track.style.transform = `translateX(${amountToMove})`;
+              currentIndex = targetIndex;
+          };
+
+          // Function to start auto-play
+          const startAutoPlay = () => {
+              stopAutoPlay(); // Clear existing interval first
+              autoPlayInterval = setInterval(() => {
+                  moveToSlide(currentIndex + 1);
+              }, autoPlayDelay);
+          };
+
+          // Function to stop auto-play
+          const stopAutoPlay = () => {
+              clearInterval(autoPlayInterval);
+          };
+
+          // Event listeners for buttons
+          nextButton.addEventListener('click', () => {
+              stopAutoPlay();
+              moveToSlide(currentIndex + 1);
+              startAutoPlay(); // Restart autoplay after manual navigation
+          });
+
+          prevButton.addEventListener('click', () => {
+              stopAutoPlay();
+              moveToSlide(currentIndex - 1);
+              startAutoPlay(); // Restart autoplay
+          });
+
+          // Pause autoplay on hover
+          slideshowContainer.addEventListener('mouseenter', stopAutoPlay);
+          slideshowContainer.addEventListener('mouseleave', startAutoPlay);
+
+          // Start autoplay initially
+          startAutoPlay();
+      }
+
+
+      // --- Global Initialization ---
       document.addEventListener('DOMContentLoaded', () => {
-          createFloatingHearts();
-          initializeCarousels();
+          createFloatingHearts();     // Initialize background hearts
+          initializeCarousels();      // Initialize image carousels
+          initializeSlideshow('special-slideshow'); // Initialize the new slideshow
+          // Note: initializeHeartAnimation() is removed as the canvas was replaced
       });
 
     </script>
