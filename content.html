@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Mathii! 🎂</title> <link rel="preconnect" href="https://fonts.googleapis.com">
+    <title>Happy Birthday Mathii! 🎂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&family=Pacifico&display=swap" rel="stylesheet">
     <style>
@@ -22,6 +23,8 @@
         --white-color: #fff;
         --heart-color: #ff4d4d; /* Brighter Red for hearts */
         --message-bg: #fff0f5; /* Lavender blush for message section */
+        --timer-bg: rgba(255, 255, 255, 0.2); /* Semi-transparent white for timer */
+        --timer-text: var(--secondary-accent); /* Use deeper pink for timer text */
       }
 
       /* Basic Setup */
@@ -34,6 +37,7 @@
         overflow-x: hidden; /* Prevent horizontal scroll */
         margin: 0;
         padding: 0;
+        font-family: var(--base-font); /* Apply base font globally */
       }
       /* Hide scrollbar for Webkit browsers */
       body::-webkit-scrollbar {
@@ -58,14 +62,15 @@
       /* --- Header --- */
       header {
         text-align: center;
-        padding: 2rem;
+        padding: 2rem 1rem; /* Adjusted padding */
         background-color: var(--primary-accent);
         color: var(--white-color);
         box-shadow: 0 2px 10px var(--shadow-light); /* Subtle shadow */
+        position: relative; /* Needed for timer positioning if absolute */
       }
 
       header h1 {
-      /* Apply cute font */
+        font-family: var(--cute-font); /* Apply cute font */
         font-size: 2.8rem;
         margin-bottom: 0.5rem;
         font-weight: 400; /* Pacifico is often lighter */
@@ -74,7 +79,31 @@
       header p {
         font-style: italic;
         font-size: 1.1rem;
+        margin-bottom: 1rem; /* Add space below subtitle */
       }
+
+      /* --- Countdown Timer Styles --- */
+      #countdown-timer {
+        background-color: var(--timer-bg);
+        color: var(--timer-text);
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        display: inline-block; /* Allow centering */
+        margin: 0 auto; /* Center horizontally */
+        font-size: 1.1rem;
+        font-weight: bold;
+        box-shadow: 0 2px 5px var(--shadow-light);
+        min-width: 280px; /* Ensure minimum width */
+        text-align: center;
+        font-family: var(--base-font); /* Use base font */
+      }
+
+      #countdown-timer span {
+        display: inline-block;
+        margin: 0 0.3rem; /* Space between units */
+        min-width: 2ch; /* Minimum width for numbers */
+      }
+      /* --- End Countdown Timer Styles --- */
 
       /* --- Intro Section --- */
       .intro {
@@ -295,6 +324,7 @@
       }
 
       .message-section h2 {
+        font-family: var(--cute-font); /* Apply cute font */
         font-size: 2.2rem;
         margin-bottom: 1.5rem;
         color: var(--secondary-accent);
@@ -444,6 +474,9 @@
       /* Screens smaller than 768px: Adjust layouts */
       @media (max-width: 768px) {
         header h1 { font-size: 2.2rem; }
+        header { padding: 1.5rem 1rem; } /* Adjust header padding */
+        #countdown-timer { font-size: 1rem; padding: 0.6rem 1rem; min-width: 250px;} /* Adjust timer size */
+
         .gallery { padding: 0.5rem; gap: 1rem; }
         .top-section { flex-direction: column; } /* Stack top images */
         .top-image, .side-images { flex: none; width: 100%; max-width: 100%; }
@@ -484,6 +517,8 @@
       @media (max-width: 480px) {
         header h1 { font-size: 1.8rem; }
         header p { font-size: 1rem; }
+        #countdown-timer { font-size: 0.9rem; padding: 0.5rem 0.8rem; min-width: 220px;} /* Further adjust timer */
+
         .intro { font-size: 1.1rem; }
         .grid-slide-1, .grid-slide-3 { grid-template-columns: 1fr; } /* Single column slides */
         .side-images { flex-direction: column; } /* Stack side images */
@@ -508,10 +543,14 @@
   </head>
 <body>
     <header>
-        <h1>Happy Birthday, Mathii! 🎉</h1> <p>Wishing you a day filled with love, joy, and endless memories 🥰</p> </header>
+        <h1>Happy Birthday, Mathii! 🎉</h1>
+        <p>Wishing you a day filled with love, joy, and endless memories 🥰</p>
+        <div id="countdown-timer">Loading countdown...</div>
+    </header>
 
     <section class="intro">
-        <p>From our first conversation to now, you've been such a bright light in my life. Here's a little something to celebrate you ✨</p> </section>
+        <p>From our first conversation to now, you've been such a bright light in my life. Here's a little something to celebrate you ✨</p>
+    </section>
 
     <section class="gallery">
         <div class="top-section">
@@ -573,8 +612,10 @@
 
     <section class="message-section">
         <div class="message-content">
-          <h2>A Special Message 💌</h2> <p>
-              Mathii, your kindness, your laughter, and your energy make the world better just by being in it. You deserve all the love and happiness today and always. Keep shining and chasing your dreams. I'm so lucky to know you. Happy Birthday again! 💖 </p>
+          <h2>A Special Message 💌</h2>
+          <p>
+              Mathii, your kindness, your laughter, and your energy make the world better just by being in it. You deserve all the love and happiness today and always. Keep shining and chasing your dreams. I'm so lucky to know you. Happy Birthday again! 💖
+          </p>
         </div>
         <div class="image-slideshow-container" id="special-slideshow">
             <div class="slideshow-track">
@@ -597,7 +638,8 @@
     </section>
 
     <footer>
-        <p>Made with ❤️ just for you, Mathii</p> </footer>
+        <p>Made with ❤️ just for you, Mathii</p>
+    </footer>
 
     <div class="floating-hearts" id="floatingHearts"></div>
 
@@ -684,7 +726,7 @@
         });
       }
 
-      // --- NEW Image Slideshow Script ---
+      // --- Image Slideshow Script ---
       function initializeSlideshow(containerId) {
           const slideshowContainer = document.getElementById(containerId);
           if (!slideshowContainer) {
@@ -702,7 +744,6 @@
 
           if (!track || slides.length === 0 || !nextButton || !prevButton) {
               console.error(`Essential elements missing within slideshow container "${containerId}".`);
-              // Optionally hide buttons if slides are missing
               if (prevButton) prevButton.style.display = 'none';
               if (nextButton) nextButton.style.display = 'none';
               return;
@@ -712,10 +753,8 @@
 
           // Function to move to a specific slide
           const moveToSlide = (targetIndex) => {
-              // Handle looping
               if (targetIndex < 0) { targetIndex = maxIndex; }
               else if (targetIndex > maxIndex) { targetIndex = 0; }
-
               const amountToMove = -targetIndex * 100 + '%';
               track.style.transform = `translateX(${amountToMove})`;
               currentIndex = targetIndex;
@@ -723,7 +762,7 @@
 
           // Function to start auto-play
           const startAutoPlay = () => {
-              stopAutoPlay(); // Clear existing interval first
+              stopAutoPlay();
               autoPlayInterval = setInterval(() => {
                   moveToSlide(currentIndex + 1);
               }, autoPlayDelay);
@@ -738,13 +777,13 @@
           nextButton.addEventListener('click', () => {
               stopAutoPlay();
               moveToSlide(currentIndex + 1);
-              startAutoPlay(); // Restart autoplay after manual navigation
+              startAutoPlay();
           });
 
           prevButton.addEventListener('click', () => {
               stopAutoPlay();
               moveToSlide(currentIndex - 1);
-              startAutoPlay(); // Restart autoplay
+              startAutoPlay();
           });
 
           // Pause autoplay on hover
@@ -755,13 +794,63 @@
           startAutoPlay();
       }
 
+      // --- NEW Countdown Timer Script ---
+      function initializeCountdown(elementId, targetDateString) {
+          const countdownElement = document.getElementById(elementId);
+          if (!countdownElement) {
+              console.error(`Countdown element with id "${elementId}" not found.`);
+              return;
+          }
+
+          // Set the date we're counting down to
+          // Note: Months are 0-indexed in JavaScript (Jan=0, Feb=1, etc.)
+          // So May is month 4.
+          const targetDate = new Date(targetDateString).getTime(); // Example: "2025-05-16T00:00:00"
+
+          // Update the countdown every 1 second
+          const interval = setInterval(() => {
+              // Get today's date and time
+              const now = new Date().getTime();
+
+              // Find the distance between now and the target date
+              const distance = targetDate - now;
+
+              // Time calculations for days, hours, minutes and seconds
+              const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+              const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+              const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+              const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+              // Display the result in the element
+              // Pad single digits with a leading zero
+              const pad = (num) => String(num).padStart(2, '0');
+
+              countdownElement.innerHTML = `
+                  <span>${days}</span>d
+                  <span>${pad(hours)}</span>h
+                  <span>${pad(minutes)}</span>m
+                  <span>${pad(seconds)}</span>s
+                  left!
+              `;
+
+              // If the countdown is finished, write some text
+              if (distance < 0) {
+                  clearInterval(interval); // Stop the timer
+                  countdownElement.innerHTML = "Happy Birthday Mathii!"; // Or any other message
+                  // You could add confetti or other effects here too
+              }
+          }, 1000); // Update every second
+      }
+
 
       // --- Global Initialization ---
       document.addEventListener('DOMContentLoaded', () => {
           createFloatingHearts();     // Initialize background hearts
           initializeCarousels();      // Initialize image carousels
-          initializeSlideshow('special-slideshow'); // Initialize the new slideshow
-          // Note: initializeHeartAnimation() is removed as the canvas was replaced
+          initializeSlideshow('special-slideshow'); // Initialize the special slideshow
+          // Initialize the countdown timer
+          // Format: YYYY-MM-DDTHH:MM:SS (Using T00:00:00 for start of the day)
+          initializeCountdown('countdown-timer', '2025-05-16T00:00:00');
       });
 
     </script>
